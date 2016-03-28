@@ -1,0 +1,523 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="龚高锋的博客">
+    <title>VIM光标移动 - 龚高锋的博客</title>
+    <meta name="author" content="龚高锋">
+    
+        <meta name="keywords" content="龚高锋,KobeGong,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="Vim一些快捷键">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="VIM光标移动">
+<meta property="og:url" content="http://gonggaofeng.me/2015/12/19/VIM光标移动/index.html">
+<meta property="og:site_name" content="龚高锋的博客">
+<meta property="og:description" content="Vim一些快捷键">
+<meta property="og:updated_time" content="2016-03-28T15:28:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VIM光标移动">
+<meta name="twitter:description" content="Vim一些快捷键">
+<meta property="fb:app_id" content="kobegong5">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://gonggaofeng.me/assets/images/author.jpg"/>
+    
+    
+        <meta property="og:image" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogJava-logo-008.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogJava-logo-008.jpg" />
+    
+    
+        <meta property="og:image" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-bloghero-playtime-opener.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-bloghero-playtime-opener.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-quwccsthbllipo6252snb2tfkddvrsp1eczkytpz3vmxpsb6nwodixemlkux.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">龚高锋的博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="/#about">
+        
+        
+            <img class="header-picture" src="/assets/images/author.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/author.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">龚高锋</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">搜索</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/KobeGong" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://weibo.com/kobegong5" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-weibo"></i>
+                    <span class="sidebar-button-desc">微博</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:kobegong5@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">邮箱</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    "
+             style="background-image:url('http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-bloghero-playtime-opener.jpg');"
+             data-behavior="3">
+            
+                <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            VIM光标移动
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Sat Dec 19 2015 23:41:51 GMT+0800">
+	
+		    12月 19, 2015
+    	
+    </time>
+    
+</div>
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        hasCoverCaption">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <span class="post-header-cover-caption caption">Android-Marshmallow</span>
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>Vim一些快捷键</p>
+<a id="more"></a>
+<p>移动光标 上:k nk:向上移动n行 9999k或gg可以移到第一行 G移到最后一行 下:j nj:向下移动n行 左:h nh:向左移动n列 右:l nl:向右移动n列</p>
+<p>w：光标以单词向前移动 nw：光标向前移动n个单词 光标到单词的第一个字母上 b：与w相反 e: 光标以单词向前移动 ne：光标向前移动n个单词 光标到单词的最后一个字母上 ge:与e相反</p>
+<p>$:移动光标到行尾 n$:移动到第n行的行尾 0（Num）：移动光标到行首 ^:移动光标到行首第一个非空字符上去</p>
+<p>f:移动光标到当前行的字符a上，nf移动光标到当前行的第n个a字符上 F:相反</p>
+<p>%:移动到与制匹配的括号上去（），{}，[]，&lt;&gt;等。</p>
+<p>nG:移动到第n行上 G:到最后一行</p>
+<p>CTRL＋G 得到当前光标在文件中的位置</p>
+<p>向前翻页：CTRL+F 向下移动半屏：CTRL＋G</p>
+<p>向后翻页：CTRL+B</p>
+<p>到文件开头 gg 到文件结尾 shift+g</p>
+<p>存盘： :q! :不存盘退出 :e! :放弃修改文件内容，重新载入该文件编辑 :wq ：存盘退出</p>
+<p>dw：删除一个单词,需将光标移到单词的第一个字母上，按dw，如果光标在单词任意位置，用daw dnw:删除n个单词 dne:也可，只是删除到单词尾 dnl:向右删除n个字母 dnh:向左删除n个字母 dnj:向下删除n行 dnk:向上删除n行 d$：删除当前光标到改行的行尾的字母 dd：删除一行 cnw[word]:将n个word改变为word cc:改变整行 C$:改变到行尾</p>
+<p>J: 删除换行符，将光标移到改行，按shift+j删除行尾的换行符，下一行接上来了. u: 撤销前一次的操作 shif+u(U):撤销对该行的所有操作。</p>
+<p>:set showmode :设置显示工作模式</p>
+<p>o：在当前行的下面另起一行 O（shift+o)：在当前行的上面另起一行</p>
+<p>nk或nj：光标向上或向下移n行，n为数字 an!【ESC】：在行后面加n个感叹号(!) nx:执行n次x(删除)操作</p>
+<p>ZZ：保存当前文档并退出VIM</p>
+<p>:help ：查看帮助文档，在这之中，按CTRL+] 进入超连接，按CTRL＋O 返回。 :help subject :看某一主题的帮助，ZZ 退出帮助</p>
+<p>:set number / set nonumber :显示/不显示行号 :set ruler /set noruler:显示/不显示标尺</p>
+<p>/pattern 正方向搜索一个字符模式 ?pattern 反方向搜索一个字符模式 然后按n 继续向下找</p>
+<p>把光标放到某个单词上面，然后按×号键，表示查找这个单词 查找整个单词：/\</p>
+<p>:set hlsearch 高亮显示查找到的单词 :set nohlsearch 关闭改功能</p>
+<p>m[a-z]:在文中做标记，标记号可为a-z的26个字母，用`a可以移动到标记a处</p>
+<p>r:替换当前字符 nr字符：替换当前n个字符</p>
+<p>查找替换： way1: /【word】 :查找某个word cw【newword】:替换为新word n: 继续查找 .: 执行替换</p>
+<p>way2: :s/string1/string2/g:在一行中将string1替换为string2,g表示执行 用c表示需要确认 :num1,num2 s/string1/string2/g:在行num1至num2中间将string1替换为string2 :1,$ s/string1/string2/g:在全文中将string1替换为string2</p>
+<p>v:进入visual 模式 【ESC】退出 V:shift+v 进入行的visual 模式 CTRL+V:进如块操作模式用o和O改变选择的边的大小。</p>
+<p>粘贴：p，这是粘贴用x或d删除的文本 复制： ynw：复制n个单词 yy：复制一行 ynl:复制n个字符 y$:复制当前光标至行尾处 nyy:拷贝n行 完了用p粘贴</p>
+<p>:split:分割一个窗口 :split file.c ：为另一个文件file.c分隔窗口 :nsplit file.c: 为另一个文件file.c分隔窗口，并指定其行数 CTRL＋W在窗口中切换 :close：关闭当前窗口</p>
+<p>在所有行插入相同的内容如include&lt;，操作方法如下： 将光标移到开始插入的位置，按CTRL+V进入VISUAL模式，选择好模块后 按I（shift+i)，后插入要插入的文本，按[ESC]完成。</p>
+<p>:read file.c 将文件file.c的内容插入到当前光标所在的下面 :0read file.c 将文件file.c的内容插入到当前文件的开始处(第0行） :nread file.c 将文件file.c的内容插入到当前文件的第n行后面 :read !cmd :将外部命令cmd的输出插如到当前光标所在的下面</p>
+<p>:n1,n2 write temp.c 将本文件中的n1,到n2行写入temp.c这个文件中去</p>
+<p>CTRL＋L刷新屏幕 shift + &lt; 左移一行 shift + &gt; 右移一行</p>
+<p>u: undo CTRL+R: re-do J: 合并一行 CTRL+p 自动完成功能 CTRL+g 查看当前文件全路径</p>
+<p>q[a-z] 开始记录但前开始的操作为宏，名称可为【a-z】，然后用q终止录制宏。 用reg显示当前定义的所有的宏，用@[a-z]来在当前光标处执行宏[a-z]。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Editor/">Editor</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/20/Sublime-Text-有哪些实用技巧/"  data-tooltip="Sublime Text 有哪些实用技巧">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/19/Bitmap对象的创建过程/" data-tooltip="android Bitmap对象的创建过程">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/12/19/VIM光标移动/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/12/19/VIM光标移动/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/12/19/VIM光标移动/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <div id="ds-thread" class="ds-thread" data-thread-key="2015/12/19/VIM光标移动/"
+     data-title="VIM光标移动" data-url="http://gonggaofeng.me/2015/12/19/VIM光标移动/">
+</div>
+
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 龚高锋. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/20/Sublime-Text-有哪些实用技巧/"  data-tooltip="Sublime Text 有哪些实用技巧">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/19/Bitmap对象的创建过程/" data-tooltip="android Bitmap对象的创建过程">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/12/19/VIM光标移动/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/12/19/VIM光标移动/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/12/19/VIM光标移动/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/12/19/VIM光标移动/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/12/19/VIM光标移动/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/12/19/VIM光标移动/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/author.jpg"/>
+        
+            <h4 id="about-card-name">龚高锋</h4>
+        
+            <h5 id="about-card-bio"><p>百度</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Android工程师</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                author.location
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-rjanlllosg30d03qrddpwrs6wqf4k3v0bbo68hiifuvthyhqfefx2htcagu0.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'kobegong'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

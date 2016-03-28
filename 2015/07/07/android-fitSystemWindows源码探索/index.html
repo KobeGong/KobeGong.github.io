@@ -1,0 +1,528 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="龚高锋的博客">
+    <title>android:fitSystemWindows源码探索 - 龚高锋的博客</title>
+    <meta name="author" content="龚高锋">
+    
+        <meta name="keywords" content="龚高锋,KobeGong,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="从源码角度探究fitSystemWindows属性。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="android:fitSystemWindows源码探索">
+<meta property="og:url" content="http://gonggaofeng.me/2015/07/07/android-fitSystemWindows源码探索/index.html">
+<meta property="og:site_name" content="龚高锋的博客">
+<meta property="og:description" content="从源码角度探究fitSystemWindows属性。">
+<meta property="og:image" content="http://img.blog.csdn.net/20150522212938290?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvS29iZV9Hb25nXzU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20150525005118469?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvS29iZV9Hb25nXzU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:updated_time" content="2016-03-28T15:28:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android:fitSystemWindows源码探索">
+<meta name="twitter:description" content="从源码角度探究fitSystemWindows属性。">
+<meta property="fb:app_id" content="kobegong5">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://gonggaofeng.me/assets/images/author.jpg"/>
+    
+    
+        <meta property="og:image" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid.png" />
+    
+    
+        <meta property="og:image" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid_m.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid_m.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-quwccsthbllipo6252snb2tfkddvrsp1eczkytpz3vmxpsb6nwodixemlkux.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">龚高锋的博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="/#about">
+        
+        
+            <img class="header-picture" src="/assets/images/author.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/author.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">龚高锋</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">搜索</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/KobeGong" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://weibo.com/kobegong5" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-weibo"></i>
+                    <span class="sidebar-button-desc">微博</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:kobegong5@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">邮箱</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    "
+             style="background-image:url('http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid_m.jpg');"
+             data-behavior="3">
+            
+                <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            android:fitSystemWindows源码探索
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Tue Jul 07 2015 13:06:18 GMT+0800">
+	
+		    7月 07, 2015
+    	
+    </time>
+    
+</div>
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        hasCoverCaption">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <span class="post-header-cover-caption caption">A beautiful sunrise</span>
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>从源码角度探究fitSystemWindows属性。</p>
+<a id="more"></a>
+<p>从Android 4.4开始，Android系统加入了一个比较酷的功能，就是我们可以设置状态栏的的颜色了，有个这个功能，状态栏就不再是黑乎乎的了，我们就可以根据我们应用的主色去设置状态栏的颜色，使得应用体验变得好一些，所以我们通过如下方式设置状态栏透明。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS); &#10;window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);</span><br></pre></td></tr></table></figure>
+<p>但是设置了状态栏和导航栏透明之后，发现Activity的contentView超出了ActionBar，那么我们就要使用fitSystemWindws来解决这个问题，关于具体如何解决这个问题，在<a href="http://blog.csdn.net/kobe_gong_5/article/details/41704719%20%E2%80%9CAndroid4.4%E6%96%B0%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%8C%E5%9C%A8%E5%BA%94%E7%94%A8%E5%86%85%E5%BC%80%E5%90%AF%E9%80%8F%E6%98%8E%E7%8A%B6%E6%80%81%E6%A0%8F%E5%92%8C%E9%80%8F%E6%98%8E%E8%99%9A%E6%8B%9F%E6%8C%89%E9%92%AE%E2%80%9D" target="_blank" rel="external">Android4.4新的特性，在应用内开启透明状态栏和透明虚拟按钮</a>这篇博客中有详细介绍。</p>
+<p><img src="http://img.blog.csdn.net/20150522212938290?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvS29iZV9Hb25nXzU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="这里写图片描述"><br>那么android:fitSystemWindows到底是什么东西啊，它是怎样计算的？<br>在Android Framework的源代码中查看View.java，有这几个重要方法，如下：</p>
+<ul>
+<li>dispatchApplyWindowInsets</li>
+<li>onApplyWindowInsets</li>
+<li>fitSystemWindows</li>
+</ul>
+<p>是一个自定义的View，并且覆盖View的这三个方法，打印出Log，可以发现这三个方法的调用顺序是</p>
+<ol>
+<li>dispatchApplyWindowInsets</li>
+<li>onApplyWindowInsets</li>
+<li>fitSystemWindows</li>
+</ol>
+<p>这里我们通过代码调试的方法来查看Android Framework的方法调用堆栈，如图：</p>
+<p><img src="http://img.blog.csdn.net/20150525005118469?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvS29iZV9Hb25nXzU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="这里写图片描述"><br>根据堆栈可以发现，dispatchApplyWindowInsets方法是在ViewRootImpl.performMeasure(int,int)方法中调用的。也就是说，dispatchApplyWindowInsets是在整个View Hierarchy的measure过程中调用的。</p>
+<p>在从layout文件中解释到fitSystemWindows为true设置标志位。那这个标志为在什么时候起的作用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">case com.android.internal.R.styleable.View_fitsSystemWindows:&#10;                    if (a.getBoolean(attr, false)) &#123;&#10;                        viewFlagValues |= FITS_SYSTEM_WINDOWS;&#10;                        viewFlagMasks |= FITS_SYSTEM_WINDOWS;&#10;                    &#125;&#10;                    break;</span><br></pre></td></tr></table></figure></p>
+<p>再看上面那幅堆栈图，在ActionBarOverlayLayout.measure()中开始调用fitSystemWindows的相关方法，进入ActionBarOverlayLayout的源码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;&#10;&#9;&#9;//&#36890;&#36807;findViewById&#26041;&#27861;&#65292;&#24471;&#21040;&#24067;&#23616;&#25991;&#20214;&#20013;&#30340;view&#10;        pullChildren();&#10;&#10;        int maxHeight = 0;&#10;        int maxWidth = 0;&#10;        int childState = 0;&#10;&#10;        int topInset = 0;&#10;        int bottomInset = 0;&#10;&#9;&#9;//&#27979;&#37327;ActionBar&#30340;&#39640;&#24230;&#21644;&#23485;&#24230;&#10;        measureChildWithMargins(mActionBarTop, widthMeasureSpec, 0, heightMeasureSpec, 0);&#10;        LayoutParams lp = (LayoutParams) mActionBarTop.getLayoutParams();&#10;        maxWidth = Math.max(maxWidth,&#10;                mActionBarTop.getMeasuredWidth() + lp.leftMargin + lp.rightMargin);&#10;        maxHeight = Math.max(maxHeight,&#10;                mActionBarTop.getMeasuredHeight() + lp.topMargin + lp.bottomMargin);&#10;        childState = ViewUtils.combineMeasuredStates(childState,&#10;                ViewCompat.getMeasuredState(mActionBarTop));&#10;&#10;        // xlarge screen layout doesn&#39;t have bottom action bar.&#10;        //&#27979;&#37327;ActionBar&#24213;&#37096;&#21306;&#22495;&#30340;&#39640;&#24230;&#21644;&#23485;&#24230;&#10;        if (mActionBarBottom != null) &#123;&#10;            measureChildWithMargins(mActionBarBottom, widthMeasureSpec, 0, heightMeasureSpec, 0);&#10;            lp = (LayoutParams) mActionBarBottom.getLayoutParams();&#10;            maxWidth = Math.max(maxWidth,&#10;                    mActionBarBottom.getMeasuredWidth() + lp.leftMargin + lp.rightMargin);&#10;            maxHeight = Math.max(maxHeight,&#10;                    mActionBarBottom.getMeasuredHeight() + lp.topMargin + lp.bottomMargin);&#10;            childState = ViewUtils.combineMeasuredStates(childState,&#10;                    ViewCompat.getMeasuredState(mActionBarBottom));&#10;        &#125;&#10;&#10;        final int vis = ViewCompat.getWindowSystemUiVisibility(this);&#10;        final boolean stable = (vis &#38; SYSTEM_UI_FLAG_LAYOUT_STABLE) != 0;&#10;&#10;        if (stable) &#123;&#10;            // This is the standard space needed for the action bar.  For stable measurement,&#10;            // we can&#39;t depend on the size currently reported by it -- this must remain constant.&#10;            topInset = mActionBarHeight;&#10;            //&#32771;&#34385;&#21040;ActionbarTab&#30340;&#39640;&#24230;&#65292;&#35745;&#31639;topInset&#10;            if (mHasNonEmbeddedTabs) &#123;&#10;                final View tabs = mActionBarTop.getTabContainer();&#10;                if (tabs != null) &#123;&#10;                    // If tabs are not embedded, increase space on top to account for them.&#10;                    topInset += mActionBarHeight;&#10;                &#125;&#10;            &#125;&#10;        &#125; else if (mActionBarTop.getVisibility() != GONE) &#123;&#10;            // This is the space needed on top of the window for all of the action bar&#10;            // and tabs.&#10;            topInset = mActionBarTop.getMeasuredHeight();&#10;        &#125;&#10;&#9;&#9;//&#22914;&#26524;ActionBar&#26159;split&#27169;&#24335;&#65292;&#32771;&#34385;&#24213;&#37096;&#30340;&#39640;&#24230;&#65292;&#35745;&#31639;insetBottom&#10;        if (mDecorToolbar.isSplit()) &#123;&#10;            // If action bar is split, adjust bottom insets for it.&#10;            if (mActionBarBottom != null) &#123;&#10;                if (stable) &#123;&#10;                    bottomInset = mActionBarHeight;&#10;                &#125; else &#123;&#10;                    bottomInset = mActionBarBottom.getMeasuredHeight();&#10;                &#125;&#10;            &#125;&#10;        &#125;&#10;&#10;        // If the window has not requested system UI layout flags, we need to&#10;        // make sure its content is not being covered by system UI...  though it&#10;        // will still be covered by the action bar if they have requested it to&#10;        // overlay.&#10;        mContentInsets.set(mBaseContentInsets);&#10;        mInnerInsets.set(mBaseInnerInsets);&#10;        if (!mOverlayMode &#38;&#38; !stable) &#123;&#10;            mContentInsets.top += topInset;&#10;            mContentInsets.bottom += bottomInset;&#10;        &#125; else &#123;&#10;            mInnerInsets.top += topInset;&#10;            mInnerInsets.bottom += bottomInset;&#10;        &#125;&#10;&#9;&#9;//&#22312;ActionBar&#20026;&#38750;Overlay&#27169;&#24335;&#19979;&#65292;&#24212;&#29992;&#35745;&#31639;&#22909;&#30340;ContentInsets&#10;        applyInsets(mContent, mContentInsets, true, true, true, true);&#10;&#9;&#9;//&#10;        if (!mLastInnerInsets.equals(mInnerInsets)) &#123;&#10;            // If the inner insets have changed, we need to dispatch this down to&#10;            // the app&#39;s fitSystemWindows().  We do this before measuring the content&#10;            // view to keep the same semantics as the normal fitSystemWindows() call.&#10;            mLastInnerInsets.set(mInnerInsets);&#10;&#10;//Overlay&#27169;&#24335;&#19979;&#65292;&#23558;InnerInsets&#20998;&#21457;&#21040;&#23376;View&#20013;&#12290;            mContent.dispatchFitSystemWindows(mInnerInsets);&#10;        &#125;&#10;&#10;        measureChildWithMargins(mContent, widthMeasureSpec, 0, heightMeasureSpec, 0);&#10;        lp = (LayoutParams) mContent.getLayoutParams();&#10;        maxWidth = Math.max(maxWidth,&#10;                mContent.getMeasuredWidth() + lp.leftMargin + lp.rightMargin);&#10;        maxHeight = Math.max(maxHeight,&#10;                mContent.getMeasuredHeight() + lp.topMargin + lp.bottomMargin);&#10;        childState = ViewUtils.combineMeasuredStates(childState,&#10;                ViewCompat.getMeasuredState(mContent));&#10;&#10;        // Account for padding too&#10;        maxWidth += getPaddingLeft() + getPaddingRight();&#10;        maxHeight += getPaddingTop() + getPaddingBottom();&#10;&#10;        // Check against our minimum height and width&#10;        maxHeight = Math.max(maxHeight, getSuggestedMinimumHeight());&#10;        maxWidth = Math.max(maxWidth, getSuggestedMinimumWidth());&#10;&#10;        setMeasuredDimension(&#10;                ViewCompat.resolveSizeAndState(maxWidth, widthMeasureSpec, childState),&#10;                ViewCompat.resolveSizeAndState(maxHeight, heightMeasureSpec,&#10;                        childState &#60;&#60; MEASURED_HEIGHT_STATE_SHIFT));&#10;    &#125;</span><br></pre></td></tr></table></figure>
+<p>根据上面的堆栈图知道mContent是NativeActionModeAwareLayout类型，而NativeActionModeAwareLayout，没有dispatchFitSystemWindows方法，那么查看其父类的dispatchFitSystemWindows方法。NativeActionModeAwareLayout的父类是ContentFrameLayout类型，看它的dispatchFitSystemWindows方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public void dispatchFitSystemWindows(Rect insets) &#123;&#10;        fitSystemWindows(insets);&#10;    &#125;</span><br></pre></td></tr></table></figure>
+<p>它直接调用View的fitSystemWindows方法。看View的fitSystemWindows方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protected boolean fitSystemWindows(Rect insets) &#123;&#10;        if ((mPrivateFlags3 &#38; PFLAG3_APPLYING_INSETS) == 0) &#123;&#10;            if (insets == null) &#123;&#10;                // Null insets by definition have already been consumed.&#10;                // This call cannot apply insets since there are none to apply,&#10;                // so return false.&#10;                return false;&#10;            &#125;&#10;           &#10;            try &#123;&#10;                mPrivateFlags3 |= PFLAG3_FITTING_SYSTEM_WINDOWS;&#10;                return dispatchApplyWindowInsets(new WindowInsets(insets)).isConsumed();&#10;            &#125; finally &#123;&#10;                mPrivateFlags3 &#38;= ~PFLAG3_FITTING_SYSTEM_WINDOWS;&#10;            &#125;&#10;        &#125; else &#123;&#10;            return fitSystemWindowsInt(insets);&#10;        &#125;&#10;    &#125;</span><br></pre></td></tr></table></figure>
+<p>由于第一次调用，这里的mPrivateFlags3 的PFLAG3_APPLYING_INSETS标志为不为1，所以进入if条件。进入dispatchApplyWindowInsets方法。并将mPrivateFlags3 的PFLAG3_APPLYING_INSETS标志为置为1。由于ContentFrameLayout继承了Framelayout ,所以进入了ViewGroup的dispatchApplyWindowInsets方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Override&#10;    public WindowInsets dispatchApplyWindowInsets(WindowInsets insets) &#123;&#10;        insets = super.dispatchApplyWindowInsets(insets);&#10;        if (!insets.isConsumed()) &#123;&#10;            final int count = getChildCount();&#10;            for (int i = 0; i &#60; count; i++) &#123;&#10;                insets = getChildAt(i).dispatchApplyWindowInsets(insets);&#10;                if (insets.isConsumed()) &#123;&#10;                    break;&#10;                &#125;&#10;            &#125;&#10;        &#125;&#10;        return insets;&#10;    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>首先调用了 super.dispatchApplyWindowInsets方法，也就是View的 dispatchApplyWindowInsets，<br>然后如果insets没有被消费掉的话，分别调用每个view child的dispatchApplyWindowInsets方法，让子view去消费它，如果子view消费了，那么到此结束。先执行 super.dispatchApplyWindowInsets方法。<br>下面是View.dispatchApplyWindowInsets方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public WindowInsets dispatchApplyWindowInsets(WindowInsets insets) &#123;&#10;       try &#123;&#10;           mPrivateFlags3 |= PFLAG3_APPLYING_INSETS;&#10;           if (mListenerInfo != null &#38;&#38; mListenerInfo.mOnApplyWindowInsetsListener != null) &#123;&#10;               return mListenerInfo.mOnApplyWindowInsetsListener.onApplyWindowInsets(this, insets);&#10;           &#125; else &#123;&#10;               return onApplyWindowInsets(insets);&#10;           &#125;&#10;       &#125; finally &#123;&#10;           mPrivateFlags3 &#38;= ~PFLAG3_APPLYING_INSETS;&#10;       &#125;&#10;   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>在此方法中首先将mPrivateFlags3 的PFLAG3_APPLYING_INSETS标志位置为1，然后如果开发者设置了listener的话就调用listener，否则调用onApplyWindowInsets方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public WindowInsets onApplyWindowInsets(WindowInsets insets) &#123;&#10;        if ((mPrivateFlags3 &#38; PFLAG3_FITTING_SYSTEM_WINDOWS) == 0) &#123;&#10;            if (fitSystemWindows(insets.getSystemWindowInsets())) &#123;&#10;                return insets.consumeSystemWindowInsets();&#10;            &#125;&#10;        &#125; else &#123;&#10;            if (fitSystemWindowsInt(insets.getSystemWindowInsets())) &#123;&#10;                return insets.consumeSystemWindowInsets();&#10;            &#125;&#10;        &#125;&#10;        return insets;&#10;    &#125;</span><br></pre></td></tr></table></figure>
+<p>在第一次调用fitSystemWindows方法后，mPrivateFlags3 得 PFLAG3_FITTING_SYSTEM_WINDOWS标志为被置位1了，所以进入fitSystemWindowsInt方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private boolean fitSystemWindowsInt(Rect insets) &#123;&#10;        if ((mViewFlags &#38; FITS_SYSTEM_WINDOWS) == FITS_SYSTEM_WINDOWS) &#123;&#10;            mUserPaddingStart = UNDEFINED_PADDING;&#10;            mUserPaddingEnd = UNDEFINED_PADDING;&#10;            Rect localInsets = sThreadLocal.get();&#10;            if (localInsets == null) &#123;&#10;                localInsets = new Rect();&#10;                sThreadLocal.set(localInsets);&#10;            &#125;&#10;            boolean res = computeFitSystemWindows(insets, localInsets);&#10;            mUserPaddingLeftInitial = localInsets.left;&#10;            mUserPaddingRightInitial = localInsets.right;&#10;            internalSetPadding(localInsets.left, localInsets.top,&#10;                    localInsets.right, localInsets.bottom);&#10;            return res;&#10;        &#125;&#10;        return false;&#10;    &#125;</span><br></pre></td></tr></table></figure>
+<p>在这个方法中，两个关键函数</p>
+<ul>
+<li>computeFitSystemWindows</li>
+<li>internalSetPadding</li>
+</ul>
+<p>先看computeFitSystemWindows。官方解释是，计算insets应该被此view消费掉还是继续传递。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protected boolean computeFitSystemWindows(Rect inoutInsets, Rect outLocalInsets) &#123;&#10;        if ((mViewFlags &#38; OPTIONAL_FITS_SYSTEM_WINDOWS) == 0&#10;                || mAttachInfo == null&#10;                || ((mAttachInfo.mSystemUiVisibility &#38; SYSTEM_UI_LAYOUT_FLAGS) == 0&#10;                        &#38;&#38; !mAttachInfo.mOverscanRequested)) &#123;&#10;            outLocalInsets.set(inoutInsets);&#10;            inoutInsets.set(0, 0, 0, 0);&#10;            return true;&#10;        &#125; else &#123;&#10;            // The application wants to take care of fitting system window for&#10;            // the content...  however we still need to take care of any overscan here.&#10;            final Rect overscan = mAttachInfo.mOverscanInsets;&#10;            outLocalInsets.set(overscan);&#10;            inoutInsets.left -= overscan.left;&#10;            inoutInsets.top -= overscan.top;&#10;            inoutInsets.right -= overscan.right;&#10;            inoutInsets.bottom -= overscan.bottom;&#10;            return false;&#10;        &#125;&#10;    &#125;</span><br></pre></td></tr></table></figure>
+<p>再看internalSetPadding<br>此方法是设置view的padding。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protected void internalSetPadding(int left, int top, int right, int bottom) &#123;&#10;       mUserPaddingLeft = left;&#10;       mUserPaddingRight = right;&#10;       mUserPaddingBottom = bottom;&#10;&#10;       final int viewFlags = mViewFlags;&#10;       boolean changed = false;&#10;&#10;       // Common case is there are no scroll bars.&#10;       if ((viewFlags &#38; (SCROLLBARS_VERTICAL|SCROLLBARS_HORIZONTAL)) != 0) &#123;&#10;           if ((viewFlags &#38; SCROLLBARS_VERTICAL) != 0) &#123;&#10;               final int offset = (viewFlags &#38; SCROLLBARS_INSET_MASK) == 0&#10;                       ? 0 : getVerticalScrollbarWidth();&#10;               switch (mVerticalScrollbarPosition) &#123;&#10;                   case SCROLLBAR_POSITION_DEFAULT:&#10;                       if (isLayoutRtl()) &#123;&#10;                           left += offset;&#10;                       &#125; else &#123;&#10;                           right += offset;&#10;                       &#125;&#10;                       break;&#10;                   case SCROLLBAR_POSITION_RIGHT:&#10;                       right += offset;&#10;                       break;&#10;                   case SCROLLBAR_POSITION_LEFT:&#10;                       left += offset;&#10;                       break;&#10;               &#125;&#10;           &#125;&#10;           if ((viewFlags &#38; SCROLLBARS_HORIZONTAL) != 0) &#123;&#10;               bottom += (viewFlags &#38; SCROLLBARS_INSET_MASK) == 0&#10;                       ? 0 : getHorizontalScrollbarHeight();&#10;           &#125;&#10;       &#125;&#10;&#10;       if (mPaddingLeft != left) &#123;&#10;           changed = true;&#10;           mPaddingLeft = left;&#10;       &#125;&#10;       if (mPaddingTop != top) &#123;&#10;           changed = true;&#10;           mPaddingTop = top;&#10;       &#125;&#10;       if (mPaddingRight != right) &#123;&#10;           changed = true;&#10;           mPaddingRight = right;&#10;       &#125;&#10;       if (mPaddingBottom != bottom) &#123;&#10;           changed = true;&#10;           mPaddingBottom = bottom;&#10;       &#125;&#10;&#10;       if (changed) &#123;&#10;           requestLayout();&#10;       &#125;&#10;   &#125;</span><br></pre></td></tr></table></figure></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Android/">Android</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/07/Android中继承RadioButton后，点击不能选中/"  data-tooltip="Android中继承RadioButton后，点击不能选中">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/07/Android中的信使Messenger/" data-tooltip="Android中的信使Messenger">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/07/07/android-fitSystemWindows源码探索/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/07/07/android-fitSystemWindows源码探索/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/07/07/android-fitSystemWindows源码探索/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <div id="ds-thread" class="ds-thread" data-thread-key="2015/07/07/android-fitSystemWindows源码探索/"
+     data-title="android:fitSystemWindows源码探索" data-url="http://gonggaofeng.me/2015/07/07/android-fitSystemWindows源码探索/">
+</div>
+
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 龚高锋. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/07/Android中继承RadioButton后，点击不能选中/"  data-tooltip="Android中继承RadioButton后，点击不能选中">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/07/Android中的信使Messenger/" data-tooltip="Android中的信使Messenger">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/07/07/android-fitSystemWindows源码探索/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/07/07/android-fitSystemWindows源码探索/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/07/07/android-fitSystemWindows源码探索/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/07/07/android-fitSystemWindows源码探索/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/07/07/android-fitSystemWindows源码探索/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/07/07/android-fitSystemWindows源码探索/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/author.jpg"/>
+        
+            <h4 id="about-card-name">龚高锋</h4>
+        
+            <h5 id="about-card-bio"><p>百度</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Android工程师</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                author.location
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-rjanlllosg30d03qrddpwrs6wqf4k3v0bbo68hiifuvthyhqfefx2htcagu0.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'kobegong'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

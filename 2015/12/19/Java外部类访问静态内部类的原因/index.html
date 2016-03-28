@@ -1,0 +1,500 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="龚高锋的博客">
+    <title>Java外部类访问静态内部类的原因 - 龚高锋的博客</title>
+    <meta name="author" content="龚高锋">
+    
+        <meta name="keywords" content="龚高锋,KobeGong,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="本文分析了Java中外部类可以访问静态内部类的原因。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Java外部类访问静态内部类的原因">
+<meta property="og:url" content="http://gonggaofeng.me/2015/12/19/Java外部类访问静态内部类的原因/index.html">
+<meta property="og:site_name" content="龚高锋的博客">
+<meta property="og:description" content="本文分析了Java中外部类可以访问静态内部类的原因。">
+<meta property="og:updated_time" content="2016-03-28T15:28:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java外部类访问静态内部类的原因">
+<meta name="twitter:description" content="本文分析了Java中外部类可以访问静态内部类的原因。">
+<meta property="fb:app_id" content="kobegong5">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://gonggaofeng.me/assets/images/author.jpg"/>
+    
+    
+        <meta property="og:image" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogJava-logo-008.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogJava-logo-008.jpg" />
+    
+    
+        <meta property="og:image" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-bloghero-playtime-opener.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-bloghero-playtime-opener.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-quwccsthbllipo6252snb2tfkddvrsp1eczkytpz3vmxpsb6nwodixemlkux.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">龚高锋的博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="/#about">
+        
+        
+            <img class="header-picture" src="/assets/images/author.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/author.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">龚高锋</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">搜索</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/KobeGong" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://weibo.com/kobegong5" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-weibo"></i>
+                    <span class="sidebar-button-desc">微博</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:kobegong5@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">邮箱</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    "
+             style="background-image:url('http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-bloghero-playtime-opener.jpg');"
+             data-behavior="3">
+            
+                <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            Java外部类访问静态内部类的原因
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Sat Dec 19 2015 16:27:02 GMT+0800">
+	
+		    12月 19, 2015
+    	
+    </time>
+    
+</div>
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        hasCoverCaption">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <span class="post-header-cover-caption caption">Android-Marshmallow</span>
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>本文分析了Java中外部类可以访问静态内部类的原因。</p>
+<a id="more"></a>
+<p>在Java中，我们可以在一个定义一个静态内部类，静态内部类和非静态内部类不同，它不会持有外部类的引用。我们将一个类定义成静态内部类和普通类的区别不大，个人认为有两个不同。</p>
+<ol>
+<li>class文件名称不同。静态内部类的class文件名由其类名和其外部类名共同决定，具体是外部类的全名$内部类名.class</li>
+<li>静态内部类所属的外部类可以访问静态内部类的私有成员和私有方法。</li>
+<li>定义的位置不同。内部类嘛，是定义在某个类的内部。（废话）</li>
+</ol>
+<p>既然和普通类的区别不大，普通类的私有方法，我们在外部是无法访问的，但是为什么静态内部类的外部类可以访问其私有成员和私有方法？</p>
+<p>下面是一段简单的静态内部类的示例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class TestMain &#123;&#10;    public int    mX = 0;&#10;   &#10;    public static void main(String[] args) &#123;&#10;        Child child = new Child();&#10;        child.name = &#34;kobe&#34;;&#10;        System.out.println(child.name);&#10;        return;&#10;    &#125;&#10;&#10;    public TestMain()&#123;&#10;    &#125;&#10;    public void test()&#123;&#10;        return;&#10;    &#125;&#10;&#10;    public static class Child&#123;&#10;        private String name;&#10;&#10;        public Child()&#123;&#10;            this.name = name;&#10;        &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这段代码中，定义一个TestMain类，它有一个静态内部类Child，在main函数中创建了一个child的对象，并直接修改child的私有成员name的值为”kobe”，编译执行，一切ok。</p>
+<p>下面通过javap命令，查看TestMain的class文件，看看它的字节码是什么样子的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#62; javap -v com/test/TestMain.class&#10;Classfile /Users/baidu/java_code/javavmtest/JavaCode/src/com/test/TestMain.class&#10;  Last modified 2015-12-18; size 767 bytes&#10;  MD5 checksum c923ce6a5bb70b704b1c5b0cc67e99d7&#10;  Compiled from &#34;TestMain.java&#34;&#10;public class com.test.TestMain&#10;  SourceFile: &#34;TestMain.java&#34;&#10;  InnerClasses:&#10;       public static #12= #1 of #10; //Child=class com/test/TestMain$Child of class com/test/TestMain&#10;  minor version: 0&#10;  major version: 51&#10;  flags: ACC_PUBLIC, ACC_SUPER&#10;Constant pool:&#10;   #1 = Class              #25            //  com/test/TestMain$Child&#10;   #2 = Methodref          #1.#26         //  com/test/TestMain$Child.&#34;&#60;init&#62;&#34;:()V&#10;   #3 = String             #27            //  kobe&#10;   #4 = Methodref          #1.#28         //  com/test/TestMain$Child.access$002:(Lcom/test/TestMain$Child;Ljava/lang/String;)Ljava/lang/String;&#10;   #5 = Fieldref           #29.#30        //  java/lang/System.out:Ljava/io/PrintStream;&#10;   #6 = Methodref          #1.#31         //  com/test/TestMain$Child.access$000:(Lcom/test/TestMain$Child;)Ljava/lang/String;&#10;   #7 = Methodref          #32.#33        //  java/io/PrintStream.println:(Ljava/lang/String;)V&#10;   #8 = Methodref          #11.#26        //  java/lang/Object.&#34;&#60;init&#62;&#34;:()V&#10;   #9 = Fieldref           #10.#34        //  com/test/TestMain.mX:I&#10;  #10 = Class              #35            //  com/test/TestMain&#10;  #11 = Class              #36            //  java/lang/Object&#10;  #12 = Utf8               Child&#10;  #13 = Utf8               InnerClasses&#10;  #14 = Utf8               mX&#10;  #15 = Utf8               I&#10;  #16 = Utf8               main&#10;  #17 = Utf8               ([Ljava/lang/String;)V&#10;  #18 = Utf8               Code&#10;  #19 = Utf8               LineNumberTable&#10;  #20 = Utf8               &#60;init&#62;&#10;  #21 = Utf8               ()V&#10;  #22 = Utf8               test&#10;  #23 = Utf8               SourceFile&#10;  #24 = Utf8               TestMain.java&#10;  #25 = Utf8               com/test/TestMain$Child&#10;  #26 = NameAndType        #20:#21        //  &#34;&#60;init&#62;&#34;:()V&#10;  #27 = Utf8               kobe&#10;  #28 = NameAndType        #37:#38        //  access$002:(Lcom/test/TestMain$Child;Ljava/lang/String;)Ljava/lang/String;&#10;  #29 = Class              #39            //  java/lang/System&#10;  #30 = NameAndType        #40:#41        //  out:Ljava/io/PrintStream;&#10;  #31 = NameAndType        #42:#43        //  access$000:(Lcom/test/TestMain$Child;)Ljava/lang/String;&#10;  #32 = Class              #44            //  java/io/PrintStream&#10;  #33 = NameAndType        #45:#46        //  println:(Ljava/lang/String;)V&#10;  #34 = NameAndType        #14:#15        //  mX:I&#10;  #35 = Utf8               com/test/TestMain&#10;  #36 = Utf8               java/lang/Object&#10;  #37 = Utf8               access$002&#10;  #38 = Utf8               (Lcom/test/TestMain$Child;Ljava/lang/String;)Ljava/lang/String;&#10;  #39 = Utf8               java/lang/System&#10;  #40 = Utf8               out&#10;  #41 = Utf8               Ljava/io/PrintStream;&#10;  #42 = Utf8               access$000&#10;  #43 = Utf8               (Lcom/test/TestMain$Child;)Ljava/lang/String;&#10;  #44 = Utf8               java/io/PrintStream&#10;  #45 = Utf8               println&#10;  #46 = Utf8               (Ljava/lang/String;)V&#10;&#123;&#10;  public int mX;&#10;    flags: ACC_PUBLIC&#10;&#10;  public static void main(java.lang.String[]);&#10;    flags: ACC_PUBLIC, ACC_STATIC&#10;    Code:&#10;      stack=2, locals=2, args_size=1&#10;         0: new           #1                  // class com/test/TestMain$Child&#10;         3: dup&#10;         4: invokespecial #2                  // Method com/test/TestMain$Child.&#34;&#60;init&#62;&#34;:()V&#10;         7: astore_1&#10;         8: aload_1&#10;         9: ldc           #3                  // String kobe&#10;        11: invokestatic  #4                  // Method com/test/TestMain$Child.access$002:(Lcom/test/TestMain$Child;Ljava/lang/String;)Ljava/lang/String;&#10;        14: pop&#10;        15: getstatic     #5                  // Field java/lang/System.out:Ljava/io/PrintStream;&#10;        18: aload_1&#10;        19: invokestatic  #6                  // Method com/test/TestMain$Child.access$000:(Lcom/test/TestMain$Child;)Ljava/lang/String;&#10;        22: invokevirtual #7                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V&#10;        25: return&#10;      LineNumberTable:&#10;        line 7: 0&#10;        line 8: 8&#10;        line 9: 15&#10;        line 10: 25&#10;&#10;  public com.test.TestMain();&#10;    flags: ACC_PUBLIC&#10;    Code:&#10;      stack=2, locals=1, args_size=1&#10;         0: aload_0&#10;         1: invokespecial #8                  // Method java/lang/Object.&#34;&#60;init&#62;&#34;:()V&#10;         4: aload_0&#10;         5: iconst_0&#10;         6: putfield      #9                  // Field mX:I&#10;         9: return&#10;      LineNumberTable:&#10;        line 13: 0&#10;        line 4: 4&#10;        line 14: 9&#10;&#10;  public void test();&#10;    flags: ACC_PUBLIC&#10;    Code:&#10;      stack=0, locals=1, args_size=1&#10;         0: return&#10;      LineNumberTable:&#10;        line 16: 0&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第64行，开始执行main函数，从68行到70行是创建child对象，73行到74行将”kobe”赋值给了child的name成员，注意74行通过调用Child的静态方法access\$002完成给child.name赋值。access\$002并不是我们源码中写的，很明显这是Java编译器生成的代码。<br>下面是Child的字节码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#62; javap -v com.test.TestMain\$Child&#10;Classfile /Users/baidu/java_code/javavmtest/JavaCode/src/com/test/TestMain$Child.class&#10;  Last modified 2015-12-18; size 557 bytes&#10;  MD5 checksum 5f94b1089e491b12816272c9bc88bf32&#10;  Compiled from &#34;TestMain.java&#34;&#10;public class com.test.TestMain$Child&#10;  SourceFile: &#34;TestMain.java&#34;&#10;  InnerClasses:&#10;       public static #12= #3 of #21; //Child=class com/test/TestMain$Child of class com/test/TestMain&#10;  minor version: 0&#10;  major version: 51&#10;  flags: ACC_PUBLIC, ACC_SUPER&#10;Constant pool:&#10;   #1 = Fieldref           #3.#19         //  com/test/TestMain$Child.name:Ljava/lang/String;&#10;   #2 = Methodref          #4.#20         //  java/lang/Object.&#34;&#60;init&#62;&#34;:()V&#10;   #3 = Class              #22            //  com/test/TestMain$Child&#10;   #4 = Class              #23            //  java/lang/Object&#10;   #5 = Utf8               name&#10;   #6 = Utf8               Ljava/lang/String;&#10;   #7 = Utf8               &#60;init&#62;&#10;   #8 = Utf8               ()V&#10;   #9 = Utf8               Code&#10;  #10 = Utf8               LineNumberTable&#10;  #11 = Utf8               access$002&#10;  #12 = Utf8               Child&#10;  #13 = Utf8               InnerClasses&#10;  #14 = Utf8               (Lcom/test/TestMain$Child;Ljava/lang/String;)Ljava/lang/String;&#10;  #15 = Utf8               access$000&#10;  #16 = Utf8               (Lcom/test/TestMain$Child;)Ljava/lang/String;&#10;  #17 = Utf8               SourceFile&#10;  #18 = Utf8               TestMain.java&#10;  #19 = NameAndType        #5:#6          //  name:Ljava/lang/String;&#10;  #20 = NameAndType        #7:#8          //  &#34;&#60;init&#62;&#34;:()V&#10;  #21 = Class              #24            //  com/test/TestMain&#10;  #22 = Utf8               com/test/TestMain$Child&#10;  #23 = Utf8               java/lang/Object&#10;  #24 = Utf8               com/test/TestMain&#10;&#123;&#10;  public com.test.TestMain$Child();&#10;    flags: ACC_PUBLIC&#10;    Code:&#10;      stack=2, locals=1, args_size=1&#10;         0: aload_0&#10;         1: invokespecial #2                  // Method java/lang/Object.&#34;&#60;init&#62;&#34;:()V&#10;         4: aload_0&#10;         5: aload_0&#10;         6: getfield      #1                  // Field name:Ljava/lang/String;&#10;         9: putfield      #1                  // Field name:Ljava/lang/String;&#10;        12: return&#10;      LineNumberTable:&#10;        line 22: 0&#10;        line 23: 4&#10;        line 24: 12&#10;&#10;  static java.lang.String access$002(com.test.TestMain$Child, java.lang.String);&#10;    flags: ACC_STATIC, ACC_SYNTHETIC&#10;    Code:&#10;      stack=3, locals=2, args_size=2&#10;         0: aload_0&#10;         1: aload_1&#10;         2: dup_x1&#10;         3: putfield      #1                  // Field name:Ljava/lang/String;&#10;         6: areturn&#10;      LineNumberTable:&#10;        line 19: 0&#10;&#10;  static java.lang.String access$000(com.test.TestMain$Child);&#10;    flags: ACC_STATIC, ACC_SYNTHETIC&#10;    Code:&#10;      stack=1, locals=1, args_size=1&#10;         0: aload_0&#10;         1: getfield      #1                  // Field name:Ljava/lang/String;&#10;         4: areturn&#10;      LineNumberTable:&#10;        line 19: 0&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>很明显，编译器替我们生成了两个静态方法access$002和access$000，这两个方法很简单，access$002是修改name成员值的，access$000是返回name值得。flags：ACC_SYNTHETIC 说明由编译器产生,不存在于源代码中。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Java/">Java</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/19/Bitmap对象的创建过程/"  data-tooltip="android Bitmap对象的创建过程">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/10/17/BASH-语法/" data-tooltip="BASH 语法">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/12/19/Java外部类访问静态内部类的原因/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/12/19/Java外部类访问静态内部类的原因/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/12/19/Java外部类访问静态内部类的原因/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <div id="ds-thread" class="ds-thread" data-thread-key="2015/12/19/Java外部类访问静态内部类的原因/"
+     data-title="Java外部类访问静态内部类的原因" data-url="http://gonggaofeng.me/2015/12/19/Java外部类访问静态内部类的原因/">
+</div>
+
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 龚高锋. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/19/Bitmap对象的创建过程/"  data-tooltip="android Bitmap对象的创建过程">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/10/17/BASH-语法/" data-tooltip="BASH 语法">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/12/19/Java外部类访问静态内部类的原因/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/12/19/Java外部类访问静态内部类的原因/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/12/19/Java外部类访问静态内部类的原因/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/12/19/Java外部类访问静态内部类的原因/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/12/19/Java外部类访问静态内部类的原因/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/12/19/Java外部类访问静态内部类的原因/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/author.jpg"/>
+        
+            <h4 id="about-card-name">龚高锋</h4>
+        
+            <h5 id="about-card-bio"><p>百度</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Android工程师</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                author.location
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-rjanlllosg30d03qrddpwrs6wqf4k3v0bbo68hiifuvthyhqfefx2htcagu0.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'kobegong'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

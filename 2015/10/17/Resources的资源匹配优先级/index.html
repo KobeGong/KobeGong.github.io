@@ -1,0 +1,510 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="龚高锋的博客">
+    <title>Resources的资源匹配优先级 - 龚高锋的博客</title>
+    <meta name="author" content="龚高锋">
+    
+        <meta name="keywords" content="龚高锋,KobeGong,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="记录Resource获取资源时不同设备的优先级。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Resources的资源匹配优先级">
+<meta property="og:url" content="http://gonggaofeng.me/2015/10/17/Resources的资源匹配优先级/index.html">
+<meta property="og:site_name" content="龚高锋的博客">
+<meta property="og:description" content="记录Resource获取资源时不同设备的优先级。">
+<meta property="og:updated_time" content="2016-03-28T15:28:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Resources的资源匹配优先级">
+<meta name="twitter:description" content="记录Resource获取资源时不同设备的优先级。">
+<meta property="fb:app_id" content="kobegong5">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://gonggaofeng.me/assets/images/author.jpg"/>
+    
+    
+        <meta property="og:image" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid.png" />
+    
+    
+        <meta property="og:image" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blog3D-Wallpaper-For-Android-With-Apple.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blog3D-Wallpaper-For-Android-With-Apple.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-quwccsthbllipo6252snb2tfkddvrsp1eczkytpz3vmxpsb6nwodixemlkux.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">龚高锋的博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="/#about">
+        
+        
+            <img class="header-picture" src="/assets/images/author.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/author.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">龚高锋</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">搜索</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/KobeGong" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://weibo.com/kobegong5" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-weibo"></i>
+                    <span class="sidebar-button-desc">微博</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:kobegong5@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">邮箱</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    "
+             style="background-image:url('http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blog3D-Wallpaper-For-Android-With-Apple.jpg');"
+             data-behavior="3">
+            
+                <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            Resources的资源匹配优先级
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Sat Oct 17 2015 22:39:21 GMT+0800">
+	
+		    10月 17, 2015
+    	
+    </time>
+    
+</div>
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        hasCoverCaption">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <span class="post-header-cover-caption caption">A beautiful sunrise</span>
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>记录Resource获取资源时不同设备的优先级。</p>
+<a id="more"></a>
+<p>之前心里一直在打鼓，Android资源文件可以定义在不同分辨率，density，屏幕方向，最小宽度，当我们的程序需要找一个资源，但是他在多个文件下面都存在，那么Android系统的查找顺序是怎样的？最近在适配公司的项目，这些问题就深刻的站到面前了，抽时间查看了Android这部分的源代码，下面是ResTable_config类，此类是framework在native层的代码，用来记录系统的一些运行环境参数，比如屏幕方向，density，语言等等，需要详细了解的自行google。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bool ResTable_config::match(const ResTable_config&#38; settings) const &#123;&#10;    if (imsi != 0) &#123;&#10;        if (mcc != 0 &#38;&#38; mcc != settings.mcc) &#123;&#10;            return false;&#10;        &#125;&#10;        if (mnc != 0 &#38;&#38; mnc != settings.mnc) &#123;&#10;            return false;&#10;        &#125;&#10;    &#125;&#10;    if (locale != 0) &#123;&#10;        // Don&#39;t consider the script &#38; variants when deciding matches.&#10;        //&#10;        // If we two configs differ only in their script or language, they&#10;        // can be weeded out in the isMoreSpecificThan test.&#10;        if (language[0] != 0&#10;            &#38;&#38; (language[0] != settings.language[0]&#10;                || language[1] != settings.language[1])) &#123;&#10;            return false;&#10;        &#125;&#10;&#10;        if (country[0] != 0&#10;            &#38;&#38; (country[0] != settings.country[0]&#10;                || country[1] != settings.country[1])) &#123;&#10;            return false;&#10;        &#125;&#10;    &#125;&#10;&#10;    if (screenConfig != 0) &#123;&#10;        const int layoutDir = screenLayout&#38;MASK_LAYOUTDIR;&#10;        const int setLayoutDir = settings.screenLayout&#38;MASK_LAYOUTDIR;&#10;        if (layoutDir != 0 &#38;&#38; layoutDir != setLayoutDir) &#123;&#10;            return false;&#10;        &#125;&#10;&#10;        const int screenSize = screenLayout&#38;MASK_SCREENSIZE;&#10;        const int setScreenSize = settings.screenLayout&#38;MASK_SCREENSIZE;&#10;        // Any screen sizes for larger screens than the setting do not&#10;        // match.&#10;        if (screenSize != 0 &#38;&#38; screenSize &#62; setScreenSize) &#123;&#10;            return false;&#10;        &#125;&#10;&#10;        const int screenLong = screenLayout&#38;MASK_SCREENLONG;&#10;        const int setScreenLong = settings.screenLayout&#38;MASK_SCREENLONG;&#10;        if (screenLong != 0 &#38;&#38; screenLong != setScreenLong) &#123;&#10;            return false;&#10;        &#125;&#10;&#10;        const int uiModeType = uiMode&#38;MASK_UI_MODE_TYPE;&#10;        const int setUiModeType = settings.uiMode&#38;MASK_UI_MODE_TYPE;&#10;        if (uiModeType != 0 &#38;&#38; uiModeType != setUiModeType) &#123;&#10;            return false;&#10;        &#125;&#10;&#10;        const int uiModeNight = uiMode&#38;MASK_UI_MODE_NIGHT;&#10;        const int setUiModeNight = settings.uiMode&#38;MASK_UI_MODE_NIGHT;&#10;        if (uiModeNight != 0 &#38;&#38; uiModeNight != setUiModeNight) &#123;&#10;            return false;&#10;        &#125;&#10;&#10;        if (smallestScreenWidthDp != 0&#10;                &#38;&#38; smallestScreenWidthDp &#62; settings.smallestScreenWidthDp) &#123;&#10;            return false;&#10;        &#125;&#10;    &#125;&#10;    if (screenSizeDp != 0) &#123;&#10;        if (screenWidthDp != 0 &#38;&#38; screenWidthDp &#62; settings.screenWidthDp) &#123;&#10;            //ALOGI(&#34;Filtering out width %d in requested %d&#34;, screenWidthDp, settings.screenWidthDp);&#10;            return false;&#10;        &#125;&#10;        if (screenHeightDp != 0 &#38;&#38; screenHeightDp &#62; settings.screenHeightDp) &#123;&#10;            //ALOGI(&#34;Filtering out height %d in requested %d&#34;, screenHeightDp, settings.screenHeightDp);&#10;            return false;&#10;        &#125;&#10;    &#125;&#10;    if (screenType != 0) &#123;&#10;        if (orientation != 0 &#38;&#38; orientation != settings.orientation) &#123;&#10;            return false;&#10;        &#125;&#10;        // density always matches - we can scale it.  See isBetterThan&#10;        if (touchscreen != 0 &#38;&#38; touchscreen != settings.touchscreen) &#123;&#10;            return false;&#10;        &#125;&#10;    &#125;&#10;    if (input != 0) &#123;&#10;        const int keysHidden = inputFlags&#38;MASK_KEYSHIDDEN;&#10;        const int setKeysHidden = settings.inputFlags&#38;MASK_KEYSHIDDEN;&#10;        if (keysHidden != 0 &#38;&#38; keysHidden != setKeysHidden) &#123;&#10;            // For compatibility, we count a request for KEYSHIDDEN_NO as also&#10;            // matching the more recent KEYSHIDDEN_SOFT.  Basically&#10;            // KEYSHIDDEN_NO means there is some kind of keyboard available.&#10;            //ALOGI(&#34;Matching keysHidden: have=%d, config=%d\n&#34;, keysHidden, setKeysHidden);&#10;            if (keysHidden != KEYSHIDDEN_NO || setKeysHidden != KEYSHIDDEN_SOFT) &#123;&#10;                //ALOGI(&#34;No match!&#34;);&#10;                return false;&#10;            &#125;&#10;        &#125;&#10;        const int navHidden = inputFlags&#38;MASK_NAVHIDDEN;&#10;        const int setNavHidden = settings.inputFlags&#38;MASK_NAVHIDDEN;&#10;        if (navHidden != 0 &#38;&#38; navHidden != setNavHidden) &#123;&#10;            return false;&#10;        &#125;&#10;        if (keyboard != 0 &#38;&#38; keyboard != settings.keyboard) &#123;&#10;            return false;&#10;        &#125;&#10;        if (navigation != 0 &#38;&#38; navigation != settings.navigation) &#123;&#10;            return false;&#10;        &#125;&#10;    &#125;&#10;    if (screenSize != 0) &#123;&#10;        if (screenWidth != 0 &#38;&#38; screenWidth &#62; settings.screenWidth) &#123;&#10;            return false;&#10;        &#125;&#10;        if (screenHeight != 0 &#38;&#38; screenHeight &#62; settings.screenHeight) &#123;&#10;            return false;&#10;        &#125;&#10;    &#125;&#10;    if (version != 0) &#123;&#10;        if (sdkVersion != 0 &#38;&#38; sdkVersion &#62; settings.sdkVersion) &#123;&#10;            return false;&#10;        &#125;&#10;        if (minorVersion != 0 &#38;&#38; minorVersion != settings.minorVersion) &#123;&#10;            return false;&#10;        &#125;&#10;    &#125;&#10;    return true;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>代码位于framework/base/libs/androidfw/ResourceTypes.cpp</p>
+<p><strong>优先级</strong></p>
+<ol>
+<li>IMSI</li>
+<li>语言</li>
+<li>国家</li>
+<li>UI mode（白天or黑夜）</li>
+<li>屏幕大小</li>
+<li>最小宽度DPI</li>
+<li>屏幕密度</li>
+<li>屏幕方向</li>
+<li>系统version</li>
+</ol>
+<blockquote>
+<p><em>IMSI</em><br>由MCC、MNC、MSIN组成，其中MCC为移动国家号码，由3位数字组成，</p>
+<pre><code>* 唯一地识别移动客户所属的国家，我国为460；MNC为网络id，由2位数字组成，
+* 用于识别移动客户所归属的移动网络，中国移动为00，中国联通为01,中国电信为03；MSIN为移动客户识别码，采用等长11位数字构成。
+* 唯一地识别国内GSM移动通信网中移动客户。所以要区分是移动还是联通，只需取得SIM卡中的MNC字段即可
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String imsi = telManager.getSubscriberId();&#10;    if(imsi!=null)&#123;&#10;        if(imsi.startsWith(&#34;46000&#34;) || imsi.startsWith(&#34;46002&#34;))&#123;//&#22240;&#20026;&#31227;&#21160;&#32593;&#32476;&#32534;&#21495;46000&#19979;&#30340;IMSI&#24050;&#32463;&#29992;&#23436;&#65292;&#25152;&#20197;&#34394;&#25311;&#20102;&#19968;&#20010;46002&#32534;&#21495;&#65292;134/159&#21495;&#27573;&#20351;&#29992;&#20102;&#27492;&#32534;&#21495;&#10;        //&#20013;&#22269;&#31227;&#21160;&#10;        &#125;else if(imsi.startsWith(&#34;46001&#34;))&#123;&#10;        //&#20013;&#22269;&#32852;&#36890;&#10;        &#125;else if(imsi.startsWith(&#34;46003&#34;))&#123;&#10;        //&#20013;&#22269;&#30005;&#20449;&#10;        &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>IMSI：国际移动用户识别码（唯一标识），IMSI = MCC + MNC + MSIN，其中MCC是指移动台国家代码（3 位，中国460），MNC是指移动网代码（2 位中国00），MSIN是指移动用户识别号码 (10 位 )<br>IMSI共有15位，其结构如下：<br>　　MCC+MNC+MSIN ，（MNC+MSIN=NMSI）<br>　　MCC：Mobile Country Code，移动国家码，MCC的资源由国际电联（ITU）统一分配和管理，唯一识别移动用户所属的国家，共3位，中国为460;<br>　　MNC:Mobile Network Code，移动网络码，共2位，中国移动TD系统使用00，中国联通GSM系统使用01，中国移动GSM系统使用02，中国电信CDMA系统使用03，一个典型的IMSI号码为460030912121001;<br>　　MSIN:Mobile Subscriber Identification Number共有10位，其结构如下：<br>　　09+M0M1M2M3+ABCD<br>　　其中的M0M1M2M3和MDN号码中的H0H1H2H3可存在对应关系，ABCD四位为自由分配。<br>　　可以看出IMSI在MSIN号码前加了MCC即NMSI，可以区别出每个用户的来自的国家，因此可以实现国际漫游。在同一个国家内，如果有多个移动网络运营商，可以通过MNC来进行区别.</p>
+</blockquote>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Android/">Android</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/10/17/BASH-语法/"  data-tooltip="BASH 语法">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/26/Git-Push-Fails-fatal-The-remote-end-hung-up-unexpectedly/" data-tooltip="Git Push Fails - fatal: The remote end hung up unexpectedly">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/10/17/Resources的资源匹配优先级/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/10/17/Resources的资源匹配优先级/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/10/17/Resources的资源匹配优先级/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <div id="ds-thread" class="ds-thread" data-thread-key="2015/10/17/Resources的资源匹配优先级/"
+     data-title="Resources的资源匹配优先级" data-url="http://gonggaofeng.me/2015/10/17/Resources的资源匹配优先级/">
+</div>
+
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 龚高锋. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/10/17/BASH-语法/"  data-tooltip="BASH 语法">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/26/Git-Push-Fails-fatal-The-remote-end-hung-up-unexpectedly/" data-tooltip="Git Push Fails - fatal: The remote end hung up unexpectedly">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/10/17/Resources的资源匹配优先级/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/10/17/Resources的资源匹配优先级/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/10/17/Resources的资源匹配优先级/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/10/17/Resources的资源匹配优先级/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/10/17/Resources的资源匹配优先级/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/10/17/Resources的资源匹配优先级/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/author.jpg"/>
+        
+            <h4 id="about-card-name">龚高锋</h4>
+        
+            <h5 id="about-card-bio"><p>百度</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Android工程师</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                author.location
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-rjanlllosg30d03qrddpwrs6wqf4k3v0bbo68hiifuvthyhqfefx2htcagu0.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'kobegong'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

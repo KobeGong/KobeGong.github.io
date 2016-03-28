@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="龚高锋的博客">
+    <title>android Bitmap对象的创建过程 - 龚高锋的博客</title>
+    <meta name="author" content="龚高锋">
+    
+        <meta name="keywords" content="龚高锋,KobeGong,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="本文分析了从Java层到Native层分析了Bitmap对象的创建过程。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="android Bitmap对象的创建过程">
+<meta property="og:url" content="http://gonggaofeng.me/2015/12/19/Bitmap对象的创建过程/index.html">
+<meta property="og:site_name" content="龚高锋的博客">
+<meta property="og:description" content="本文分析了从Java层到Native层分析了Bitmap对象的创建过程。">
+<meta property="og:updated_time" content="2016-03-28T15:28:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android Bitmap对象的创建过程">
+<meta name="twitter:description" content="本文分析了从Java层到Native层分析了Bitmap对象的创建过程。">
+<meta property="fb:app_id" content="kobegong5">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://gonggaofeng.me/assets/images/author.jpg"/>
+    
+    
+        <meta property="og:image" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid.png" />
+    
+    
+        <meta property="og:image" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogAndroid-Marshmallow.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogAndroid-Marshmallow.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-quwccsthbllipo6252snb2tfkddvrsp1eczkytpz3vmxpsb6nwodixemlkux.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">龚高锋的博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="/#about">
+        
+        
+            <img class="header-picture" src="/assets/images/author.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/author.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">龚高锋</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">搜索</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/KobeGong" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://weibo.com/kobegong5" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-weibo"></i>
+                    <span class="sidebar-button-desc">微博</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:kobegong5@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">邮箱</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    "
+             style="background-image:url('http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogAndroid-Marshmallow.jpg');"
+             data-behavior="3">
+            
+                <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            android Bitmap对象的创建过程
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Sat Dec 19 2015 16:47:02 GMT+0800">
+	
+		    12月 19, 2015
+    	
+    </time>
+    
+</div>
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        hasCoverCaption">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <span class="post-header-cover-caption caption">Android-Marshmallow</span>
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>本文分析了从Java层到Native层分析了Bitmap对象的创建过程。</p>
+<a id="more"></a>
+<p>Bitmap在Android4.0之后将Bitmap的内存从Native层转移到Java层了。<br>在Java层，创建一个Bitmap对象需要使用Bitmap的createBitmap的系列方法,Bitmap通过下面的方法来时创建Bitmap对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private static Bitmap createBitmap(DisplayMetrics display, int width, int height,&#10;            Config config, boolean hasAlpha) &#123;&#10;        if (width &#60;= 0 || height &#60;= 0) &#123;&#10;            throw new IllegalArgumentException(&#34;width and height must be &#62; 0&#34;);&#10;        &#125;&#10;        Bitmap bm = nativeCreate(null, 0, width, width, height, config.nativeInt, true);&#10;        if (display != null) &#123;&#10;            bm.mDensity = display.densityDpi;&#10;        &#125;&#10;        bm.setHasAlpha(hasAlpha);&#10;        if (config == Config.ARGB_8888 &#38;&#38; !hasAlpha) &#123;&#10;            nativeErase(bm.mFinalizer.mNativeBitmap, 0xff000000);&#10;        &#125;&#10;        // No need to initialize the bitmap to zeroes with other configs;&#10;        // it is backed by a VM byte array which is by definition preinitialized&#10;        // to all zeroes.&#10;        return bm;&#10;    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面代码位于framework/base/core/graphics/java/android/graphics/Bitmap.java</p>
+<p>在createBitmap方法中通过nativeCreate方法来创建Bitmap对象，nativeCreate方法的申明如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private static native Bitmap nativeCreate(int[] colors, int offset,&#10;                                              int stride, int width, int height,&#10;                                              int nativeConfig, boolean mutable);</span><br></pre></td></tr></table></figure></p>
+<p>nativeCreate的参数colors是像素点颜色数组，offset是数组的起始偏移量，stride是每个像素颜色的跨越值，width是bitmap 的宽度值，height是bitmap 的高度值，nativeConfig是Config的int值，Config是一个枚举类型，代码下面列出，nativeConfigInt也就是config对象的int型表示。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public enum Config &#123;&#10;        // these native values must match up with the enum in SkBitmap.h&#10;&#10;        ALPHA_8     (1),&#10;&#10;        RGB_565     (3),&#10;&#10;        @Deprecated&#10;        ARGB_4444   (4),&#10;&#10;        ARGB_8888   (5);&#10;&#10;        final int nativeInt;&#10;&#10;        private static Config sConfigs[] = &#123;&#10;            null, ALPHA_8, null, RGB_565, ARGB_4444, ARGB_8888&#10;        &#125;;&#10;&#10;        Config(int ni) &#123;&#10;            this.nativeInt = ni;&#10;        &#125;&#10;&#10;        static Config nativeToConfig(int ni) &#123;&#10;            return sConfigs[ni];&#10;        &#125;&#10;    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>nativeCreate在Native层对应的方法是framework/base/core/jni/android/graphics/Bitmap.cpp文件中的Bitmap_creator方法中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static jobject Bitmap_creator(JNIEnv* env, jobject, jintArray jColors,&#10;                              jint offset, jint stride, jint width, jint height,&#10;                              jint configHandle, jboolean isMutable) &#123;&#10;    SkColorType colorType = GraphicsJNI::legacyBitmapConfigToColorType(configHandle);&#10;    if (NULL != jColors) &#123;&#10;        size_t n = env-&#62;GetArrayLength(jColors);&#10;        if (n &#60; SkAbs32(stride) * (size_t)height) &#123;&#10;            doThrowAIOOBE(env);&#10;            return NULL;&#10;        &#125;&#10;    &#125;&#10;&#10;    // ARGB_4444 is a deprecated format, convert automatically to 8888&#10;    if (colorType == kARGB_4444_SkColorType) &#123;&#10;        colorType = kN32_SkColorType;&#10;    &#125;&#10;&#10;    SkBitmap bitmap;&#10;    bitmap.setInfo(SkImageInfo::Make(width, height, colorType, kPremul_SkAlphaType));&#10;&#10;    Bitmap* nativeBitmap = GraphicsJNI::allocateJavaPixelRef(env, &#38;bitmap, NULL);&#10;    if (!nativeBitmap) &#123;&#10;        return NULL;&#10;    &#125;&#10;&#10;    if (jColors != NULL) &#123;&#10;        GraphicsJNI::SetPixels(env, jColors, offset, stride,&#10;                0, 0, width, height, bitmap);&#10;    &#125;&#10;&#10;    return GraphicsJNI::createBitmap(env, nativeBitmap,&#10;            getPremulBitmapCreateFlags(isMutable));&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里首先调用GraphicsJNI::legacyBitmapConfigToColorType将configHandle转换成SkColorType,configHandle是Java层的Config对象的int型表示，legacyBitmapConfigToColorType函数如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SkColorType GraphicsJNI::legacyBitmapConfigToColorType(jint legacyConfig) &#123;&#10;    const uint8_t gConfig2ColorType[] = &#123;&#10;        kUnknown_SkColorType,&#10;        kAlpha_8_SkColorType,&#10;        kIndex_8_SkColorType,&#10;        kRGB_565_SkColorType,&#10;        kARGB_4444_SkColorType,&#10;        kN32_SkColorType&#10;    &#125;;&#10;&#10;    if (legacyConfig &#60; 0 || legacyConfig &#62; kLastEnum_LegacyBitmapConfig) &#123;&#10;        legacyConfig = kNo_LegacyBitmapConfig;&#10;    &#125;&#10;    return static_cast&#60;SkColorType&#62;(gConfig2ColorType[legacyConfig]);&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>之后colors数组不为NULL的话，检查colors数组的合法性，如果colors的长度小于stride*height，说明colors数组中要跳过的数大于数组的长度，也就是colors数组中没有合法的像素值。如果colors数组是合法的，则继续执行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SkBitmap bitmap;&#10;   bitmap.setInfo(SkImageInfo::Make(width, height, colorType, kPremul_SkAlphaType));</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SkImageInfo()&#10;       : fWidth(0)&#10;       , fHeight(0)&#10;       , fColorType(kUnknown_SkColorType)&#10;       , fAlphaType(kUnknown_SkAlphaType)&#10;       , fProfileType(kLinear_SkColorProfileType)&#10;   &#123;&#125;&#10;&#10;   static SkImageInfo Make(int width, int height, SkColorType ct, SkAlphaType at,&#10;                           SkColorProfileType pt = kLinear_SkColorProfileType) &#123;&#10;       return SkImageInfo(width, height, ct, at, pt);&#10;   &#125;</span><br></pre></td></tr></table></figure>
+<p>SkImageInfo定义在external/skia/include/core/SkImageInfo.h文件中<br>创建一个SkBitmap对象，调用SkImageInfo::Make方法通过从Java层传下来的width，height以及上面转换得到的colorType，以及kPremul_SkAlphaType来得到一个SkBitmapInfo对象，kPremul_SkAlphaType是一个SkAlphaType类型，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enum SkAlphaType &#123;&#10;&#9;//All pixels are stored as opaque&#10;    kUnknown_SkAlphaType,&#10;&#10;    kOpaque_SkAlphaType,&#10;&#10;    kPremul_SkAlphaType,&#10;&#10;    kUnpremul_SkAlphaType,&#10;&#10;    kLastEnum_SkAlphaType = kUnpremul_SkAlphaType&#10;&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>之后调用SkBitmap.setInfo将得到SkImageInfo记录下来。调用GraphicsJNI::allocateJavaPixelRef方法，此方法是用于在Java层给Bitmap对象分配内存。该方法实现位于framework/base/jni/android/graphics/Graphics.cpp文件中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android::Bitmap* GraphicsJNI::allocateJavaPixelRef(JNIEnv* env, SkBitmap* bitmap,&#10;                                             SkColorTable* ctable) &#123;&#10;    const SkImageInfo&#38; info = bitmap-&#62;info();&#10;    if (info.fColorType == kUnknown_SkColorType) &#123;&#10;        doThrowIAE(env, &#34;unknown bitmap configuration&#34;);&#10;        return NULL;&#10;    &#125;&#10;&#10;    size_t size;&#10;    if (!computeAllocationSize(*bitmap, &#38;size)) &#123;&#10;        return NULL;&#10;    &#125;&#10;&#10;    // we must respect the rowBytes value already set on the bitmap instead of&#10;    // attempting to compute our own.&#10;    const size_t rowBytes = bitmap-&#62;rowBytes();&#10;&#10;    jbyteArray arrayObj = (jbyteArray) env-&#62;CallObjectMethod(gVMRuntime,&#10;                                                             gVMRuntime_newNonMovableArray,&#10;                                                             gByte_class, size);&#10;    if (env-&#62;ExceptionCheck() != 0) &#123;&#10;        return NULL;&#10;    &#125;&#10;    SkASSERT(arrayObj);&#10;    jbyte* addr = (jbyte*) env-&#62;CallLongMethod(gVMRuntime, gVMRuntime_addressOf, arrayObj);&#10;    if (env-&#62;ExceptionCheck() != 0) &#123;&#10;        return NULL;&#10;    &#125;&#10;    SkASSERT(addr);&#10;    android::Bitmap* wrapper = new android::Bitmap(env, arrayObj, (void*) addr,&#10;            info, rowBytes, ctable);&#10;    wrapper-&#62;getSkBitmap(bitmap);&#10;    // since we&#39;re already allocated, we lockPixels right away&#10;    // HeapAllocator behaves this way too&#10;    bitmap-&#62;lockPixels();&#10;&#10;    return wrapper;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这个方法中，首先info的fColorType和kUnknown_SkColorType相等的话，表示要创建的Bitmap的colorType是错误的，方法返回。否则继续执行，计算需要分配的大小，如果大小等于0，就不需要创建，直接返回。不等于0的话，通过调用jni的CallObjectMethod来调用gVimRuntime的gVMRuntime_newNonMovableArray方法来创建一个数组，这个数组类型和长度分别用gByte_class和size表示。CallObjectMethod函数返回一个jbyteArray，此时，在Java层已经创建了一个长度为size的byte数组。</p>
+<p>数组创建完毕后，通过调用jni的CallLongMethod方法调用gVMRuntime对象的gVMRuntime_addressOf方法来获取上面的到arrayObj的数组地址。</p>
+<p>得到数组地址后，创建一个Native层的Bitmap对象wrapper，调用wrapper的getSkBitmap方法为bitmap设置了一些参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void Bitmap::getSkBitmap(SkBitmap* outBitmap) &#123;&#10;    assertValid();&#10;    android::AutoMutex _lock(mLock);&#10;    // Safe because mPixelRef is a WrappedPixelRef type, otherwise rowBytes()&#10;    // would require locking the pixels first.&#10;    outBitmap-&#62;setInfo(mPixelRef-&#62;info(), mPixelRef-&#62;rowBytes());&#10;    outBitmap-&#62;setPixelRef(refPixelRefLocked())-&#62;unref();&#10;    outBitmap-&#62;setHasHardwareMipMap(hasHardwareMipMap());&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>调用SkBitmap对象bitmap的lockPixels方法锁定像素数据后，GraphicsJNI::allocateJavaPixelRef函数返回wrapper对象，回到Bitmap_creator方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static jobject Bitmap_creator(JNIEnv* env, jobject, jintArray jColors,&#10;                              jint offset, jint stride, jint width, jint height,&#10;                              jint configHandle, jboolean isMutable) &#123;&#10;    ......&#10;&#10;    Bitmap* nativeBitmap = GraphicsJNI::allocateJavaPixelRef(env, &#38;bitmap, NULL);&#10;    if (!nativeBitmap) &#123;&#10;        return NULL;&#10;    &#125;&#10;&#10;    if (jColors != NULL) &#123;&#10;        GraphicsJNI::SetPixels(env, jColors, offset, stride,&#10;                0, 0, width, height, bitmap);&#10;    &#125;&#10;&#10;    return GraphicsJNI::createBitmap(env, nativeBitmap,&#10;            getPremulBitmapCreateFlags(isMutable));&#10;&#125;          getPremulBitmapCreateFlags(isMutable));</span><br></pre></td></tr></table></figure></p>
+<p>如果GraphicsJNI::allocateJavaPixelRef返回的Native 层的Bitmap对象为NULL，函数返回。否则，函数继续执行。<br>如果jColors不为NULL，那么将jColors中表示的像素值传递给前面创建在Java层的数组中。<br>调用GraphicsJNI::createBitmap来创建Java层的Bitmap对象。函数定义在framework/base/jni/android/graphics/Graphics.cpp中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jobject GraphicsJNI::createBitmap(JNIEnv* env, android::Bitmap* bitmap,&#10;        int bitmapCreateFlags, jbyteArray ninePatchChunk, jobject ninePatchInsets,&#10;        int density) &#123;&#10;    bool isMutable = bitmapCreateFlags &#38; kBitmapCreateFlag_Mutable;&#10;    bool isPremultiplied = bitmapCreateFlags &#38; kBitmapCreateFlag_Premultiplied;&#10;    // The caller needs to have already set the alpha type properly, so the&#10;    // native SkBitmap stays in sync with the Java Bitmap.&#10;    assert_premultiplied(bitmap-&#62;info(), isPremultiplied);&#10;&#10;    jobject obj = env-&#62;NewObject(gBitmap_class, gBitmap_constructorMethodID,&#10;            reinterpret_cast&#60;jlong&#62;(bitmap), bitmap-&#62;javaByteArray(),&#10;            bitmap-&#62;width(), bitmap-&#62;height(), density, isMutable, isPremultiplied,&#10;            ninePatchChunk, ninePatchInsets);&#10;    hasException(env); // For the side effect of logging.&#10;    return obj;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里主要是调用jni的NewObject来创建了一个Java层的Bitmap对象，gBitmap_class代表的Java层的Bitmap类名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int register_android_graphics_Graphics(JNIEnv* env)&#10;&#123;&#10;    ......&#10;&#9;gBitmap_class = make_globalref(env, &#34;android/graphics/Bitmap&#34;);&#10;&#9;......&#10;&#65373;</span><br></pre></td></tr></table></figure></p>
+<p>定义在framework/base/jni/android/graphics/Graphics.cpp文件中</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Android/">Android</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/19/VIM光标移动/"  data-tooltip="VIM光标移动">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/19/Java外部类访问静态内部类的原因/" data-tooltip="Java外部类访问静态内部类的原因">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/12/19/Bitmap对象的创建过程/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/12/19/Bitmap对象的创建过程/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/12/19/Bitmap对象的创建过程/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <div id="ds-thread" class="ds-thread" data-thread-key="2015/12/19/Bitmap对象的创建过程/"
+     data-title="android Bitmap对象的创建过程" data-url="http://gonggaofeng.me/2015/12/19/Bitmap对象的创建过程/">
+</div>
+
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 龚高锋. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/19/VIM光标移动/"  data-tooltip="VIM光标移动">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/19/Java外部类访问静态内部类的原因/" data-tooltip="Java外部类访问静态内部类的原因">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/12/19/Bitmap对象的创建过程/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/12/19/Bitmap对象的创建过程/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/12/19/Bitmap对象的创建过程/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2015/12/19/Bitmap对象的创建过程/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2015/12/19/Bitmap对象的创建过程/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2015/12/19/Bitmap对象的创建过程/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/author.jpg"/>
+        
+            <h4 id="about-card-name">龚高锋</h4>
+        
+            <h5 id="about-card-bio"><p>百度</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Android工程师</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                author.location
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-rjanlllosg30d03qrddpwrs6wqf4k3v0bbo68hiifuvthyhqfefx2htcagu0.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'kobegong'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

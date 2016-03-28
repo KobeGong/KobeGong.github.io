@@ -1,0 +1,522 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="龚高锋的博客">
+    <title>Activity Trasition实现流程 - 龚高锋的博客</title>
+    <meta name="author" content="龚高锋">
+    
+        <meta name="keywords" content="龚高锋,KobeGong,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="自Android L系统发布后，Activity相关的动画API增加了好多，包括Explode, Slide等，这些动画都是在Transition框架之上运行的。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Activity Trasition实现流程">
+<meta property="og:url" content="http://gonggaofeng.me/2016/03/29/Activity-Trasition实现流程/index.html">
+<meta property="og:site_name" content="龚高锋的博客">
+<meta property="og:description" content="自Android L系统发布后，Activity相关的动画API增加了好多，包括Explode, Slide等，这些动画都是在Transition框架之上运行的。">
+<meta property="og:updated_time" content="2016-03-28T17:10:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Activity Trasition实现流程">
+<meta name="twitter:description" content="自Android L系统发布后，Activity相关的动画API增加了好多，包括Explode, Slide等，这些动画都是在Transition框架之上运行的。">
+<meta property="fb:app_id" content="kobegong5">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://gonggaofeng.me/assets/images/author.jpg"/>
+    
+    
+        <meta property="og:image" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid.png" />
+    
+    
+        <meta property="og:image" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid_m.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid_m.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-quwccsthbllipo6252snb2tfkddvrsp1eczkytpz3vmxpsb6nwodixemlkux.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">龚高锋的博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="/#about">
+        
+        
+            <img class="header-picture" src="/assets/images/author.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/author.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">龚高锋</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">搜索</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/KobeGong" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://weibo.com/kobegong5" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-weibo"></i>
+                    <span class="sidebar-button-desc">微博</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:kobegong5@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">邮箱</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    "
+             style="background-image:url('http://7xk9c0.com1.z0.glb.clouddn.com/gaofeng-blogandroid_m.jpg');"
+             data-behavior="3">
+            
+                <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            Activity Trasition实现流程
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Tue Mar 29 2016 01:06:49 GMT+0800">
+	
+		    3月 29, 2016
+    	
+    </time>
+    
+</div>
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        hasCoverCaption">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <span class="post-header-cover-caption caption">A beautiful sunrise</span>
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>自Android L系统发布后，Activity相关的动画API增加了好多，包括Explode, Slide等，这些动画都是在Transition框架之上运行的。</p>
+<a id="more"></a>
+<p>Activity的PerformCreate函数</p>
+<pre><code>final void performCreate(Bundle icicle) {
+    onCreate(icicle);
+    mActivityTransitionState.readState(icicle);
+    performCreateCommon();
+}
+final void performCreateCommon() {
+    mVisibleFromClient = !mWindow.getWindowStyle().getBoolean(
+                                  com.android.internal.R.styleable.Window_windowNoDisplay, false);
+    mFragments.dispatchActivityCreated();
+    mActivityTransitionState.setEnterActivityOptions(this, getActivityOptions());
+}
+</code></pre><p>setEnterActivityOptions(Activity activity, ActivityOptions options)方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public void setEnterActivityOptions(Activity activity, ActivityOptions options) &#123;&#10;        if (activity.getWindow().hasFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)&#10;                &#38;&#38; options != null &#38;&#38; mEnterActivityOptions == null&#10;                &#38;&#38; mEnterTransitionCoordinator == null&#10;                &#38;&#38; options.getAnimationType() == ActivityOptions.ANIM_SCENE_TRANSITION) &#123;&#10;            mEnterActivityOptions = options;&#10;            mIsEnterTriggered = false;&#10;            if (mEnterActivityOptions.isReturning()) &#123;&#10;                restoreExitedViews();&#10;                int result = mEnterActivityOptions.getResultCode();&#10;                if (result != 0) &#123;&#10;                    activity.onActivityReenter(result, mEnterActivityOptions.getResultData());&#10;                &#125;&#10;            &#125;&#10;        &#125;&#10;    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>framework/base/core/java/android/app/ActivityTransitionState.java</p>
+<p>Activity.performStart()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">final void performStart() &#123;&#10;        mActivityTransitionState.setEnterActivityOptions(this, getActivityOptions());&#10;        mFragments.noteStateNotSaved();&#10;        mCalled = false;&#10;        mFragments.execPendingActions();&#10;        mInstrumentation.callActivityOnStart(this);&#10;        if (!mCalled) &#123;&#10;            throw new SuperNotCalledException(&#10;                &#34;Activity &#34; + mComponent.toShortString() +&#10;                &#34; did not call through to super.onStart()&#34;);&#10;        &#125;&#10;        mFragments.dispatchStart();&#10;        mFragments.reportLoaderStart();&#10;        mActivityTransitionState.enterReady(this);&#10;    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>framework/base/core/java/android/app/Activity.java</p>
+<p>进入ActivityTransitionState.enterReady(Activity activity)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public void enterReady(Activity activity) &#123;&#10;        if (mEnterActivityOptions == null || mIsEnterTriggered) &#123;&#10;            return;&#10;        &#125;&#10;        mIsEnterTriggered = true;&#10;        mHasExited = false;&#10;        ArrayList&#60;String&#62; sharedElementNames = mEnterActivityOptions.getSharedElementNames();&#10;        ResultReceiver resultReceiver = mEnterActivityOptions.getResultReceiver();&#10;        if (mEnterActivityOptions.isReturning()) &#123;&#10;            restoreExitedViews();&#10;            activity.getWindow().getDecorView().setVisibility(View.VISIBLE);&#10;        &#125;&#10;        mEnterTransitionCoordinator = new EnterTransitionCoordinator(activity,&#10;                resultReceiver, sharedElementNames, mEnterActivityOptions.isReturning());&#10;&#10;        if (!mIsEnterPostponed) &#123;&#10;            startEnter();&#10;        &#125;&#10;    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果动画没有postponed,执行startEnter()方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private void startEnter() &#123;&#10;        if (mEnterActivityOptions.isReturning()) &#123;&#10;            if (mExitingToView != null) &#123;&#10;                mEnterTransitionCoordinator.viewInstancesReady(mExitingFrom, mExitingTo,&#10;                        mExitingToView);&#10;            &#125; else &#123;&#10;                mEnterTransitionCoordinator.namedViewsReady(mExitingFrom, mExitingTo);&#10;            &#125;&#10;        &#125; else &#123;&#10;            mEnterTransitionCoordinator.namedViewsReady(null, null);&#10;            mEnteringNames = mEnterTransitionCoordinator.getAllSharedElementNames();&#10;        &#125;&#10;&#10;        mExitingFrom = null;&#10;        mExitingTo = null;&#10;        mExitingToView = null;&#10;        mEnterActivityOptions = null;&#10;    &#125;</span><br></pre></td></tr></table></figure>
+<p>新启动的Activity, mEnterActivityOptions.isReturning()为false ,进入else。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public void namedViewsReady(ArrayList&#60;String&#62; accepted, ArrayList&#60;String&#62; localNames) &#123;&#10;        triggerViewsReady(mapNamedElements(accepted, localNames));&#10;    &#125;&#10;private void triggerViewsReady(final ArrayMap&#60;String, View&#62; sharedElements) &#123;&#10;        if (mAreViewsReady) &#123;&#10;            return;&#10;        &#125;&#10;        mAreViewsReady = true;&#10;        final ViewGroup decor = getDecor();&#10;        // Ensure the views have been laid out before capturing the views -- we need the epicenter.&#10;        if (decor == null || (decor.isAttachedToWindow() &#38;&#38;&#10;                (sharedElements.isEmpty() || !sharedElements.valueAt(0).isLayoutRequested()))) &#123;&#10;            viewsReady(sharedElements);&#10;        &#125; else &#123;&#10;            decor.getViewTreeObserver()&#10;                    .addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() &#123;&#10;                        @Override&#10;                        public boolean onPreDraw() &#123;&#10;                            decor.getViewTreeObserver().removeOnPreDrawListener(this);&#10;                            viewsReady(sharedElements);&#10;                            return true;&#10;                        &#125;&#10;                    &#125;);&#10;        &#125;&#10;    &#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protected void viewsReady(ArrayMap&#60;String, View&#62; sharedElements) &#123;&#10;        super.viewsReady(sharedElements);&#10;        mIsReadyForTransition = true;&#10;        hideViews(mSharedElements);&#10;        if (getViewsTransition() != null &#38;&#38; mTransitioningViews != null) &#123;&#10;            hideViews(mTransitioningViews);&#10;        &#125;&#10;        if (mIsReturning) &#123;&#10;            sendSharedElementDestination();&#10;        &#125; else &#123;&#10;            moveSharedElementsToOverlay();&#10;        &#125;&#10;        if (mSharedElementsBundle != null) &#123;&#10;            onTakeSharedElements();&#10;        &#125;&#10;    &#125;</span><br></pre></td></tr></table></figure>
+<p>上面这段代码主要有三个步骤：</p>
+<ol>
+<li><p>hideView. 将mSharedElements中的view的alpha值设为0.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protected void hideViews(ArrayList&#60;View&#62; views) &#123;&#10;        int count = views.size();&#10;        for (int i = 0; i &#60; count; i++) &#123;&#10;            View view = views.get(i);&#10;            if (!mOriginalAlphas.containsKey(view)) &#123;&#10;                mOriginalAlphas.put(view, view.getAlpha());&#10;            &#125;&#10;            view.setAlpha(0f);&#10;        &#125;&#10;    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>moveSharedElementsToOverlay. 将mSharedElements的view添加到ViewOverlay。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protected void moveSharedElementsToOverlay() &#123;&#10;        if (mWindow == null || !mWindow.getSharedElementsUseOverlay()) &#123;&#10;            return;&#10;        &#125;&#10;        setSharedElementMatrices();&#10;        int numSharedElements = mSharedElements.size();&#10;        ViewGroup decor = getDecor();&#10;        if (decor != null) &#123;&#10;            boolean moveWithParent = moveSharedElementWithParent();&#10;            Matrix tempMatrix = new Matrix();&#10;            for (int i = 0; i &#60; numSharedElements; i++) &#123;&#10;                View view = mSharedElements.get(i);&#10;                tempMatrix.reset();&#10;                mSharedElementParentMatrices.get(i).invert(tempMatrix);&#10;                GhostView.addGhost(view, decor, tempMatrix);&#10;                ViewGroup parent = (ViewGroup) view.getParent();&#10;                if (moveWithParent &#38;&#38; !isInTransitionGroup(parent, decor)) &#123;&#10;                    GhostViewListeners listener = new GhostViewListeners(view, parent, decor);&#10;                    parent.getViewTreeObserver().addOnPreDrawListener(listener);&#10;                    mGhostViewListeners.add(listener);&#10;                &#125;&#10;            &#125;&#10;        &#125;&#10;    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>onTakeSharedElements. 开始Transition动画。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private void onTakeSharedElements() &#123;&#10;        if (!mIsReadyForTransition || mSharedElementsBundle == null) &#123;&#10;            return;&#10;        &#125;&#10;        final Bundle sharedElementState = mSharedElementsBundle;&#10;        mSharedElementsBundle = null;&#10;        OnSharedElementsReadyListener listener = new OnSharedElementsReadyListener() &#123;&#10;            @Override&#10;            public void onSharedElementsReady() &#123;&#10;                final View decorView = getDecor();&#10;                if (decorView != null) &#123;&#10;                    decorView.getViewTreeObserver()&#10;                            .addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() &#123;&#10;                                @Override&#10;                                public boolean onPreDraw() &#123;&#10;                                    decorView.getViewTreeObserver().removeOnPreDrawListener(this);&#10;                                    startTransition(new Runnable() &#123;&#10;                                        @Override&#10;                                        public void run() &#123;&#10;                                            startSharedElementTransition(sharedElementState);&#10;                                        &#125;&#10;                                    &#125;);&#10;                                    return false;&#10;                                &#125;&#10;                            &#125;);&#10;                    decorView.invalidate();&#10;                &#125;&#10;            &#125;&#10;        &#125;;&#10;        if (mListener == null) &#123;&#10;            listener.onSharedElementsReady();&#10;        &#125; else &#123;&#10;            mListener.onSharedElementsArrived(mSharedElementNames, mSharedElements, listener);&#10;        &#125;&#10;    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>开始执行动画<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private void startSharedElementTransition(Bundle sharedElementState) &#123;&#10;        ViewGroup decorView = getDecor();&#10;        if (decorView == null) &#123;&#10;            return;&#10;        &#125;&#10;        // Remove rejected shared elements&#10;        ArrayList&#60;String&#62; rejectedNames = new ArrayList&#60;String&#62;(mAllSharedElementNames);&#10;        rejectedNames.removeAll(mSharedElementNames);&#10;        ArrayList&#60;View&#62; rejectedSnapshots = createSnapshots(sharedElementState, rejectedNames);&#10;        if (mListener != null) &#123;&#10;            mListener.onRejectSharedElements(rejectedSnapshots);&#10;        &#125;&#10;        removeNullViews(rejectedSnapshots);&#10;        startRejectedAnimations(rejectedSnapshots);&#10;&#10;        // Now start shared element transition&#10;        ArrayList&#60;View&#62; sharedElementSnapshots = createSnapshots(sharedElementState,&#10;                mSharedElementNames);&#10;        showViews(mSharedElements, true);&#10;        scheduleSetSharedElementEnd(sharedElementSnapshots);&#10;        ArrayList&#60;SharedElementOriginalState&#62; originalImageViewState =&#10;                setSharedElementState(sharedElementState, sharedElementSnapshots);&#10;        requestLayoutForSharedElements();&#10;&#10;        boolean startEnterTransition = allowOverlappingTransitions() &#38;&#38; !mIsReturning;&#10;        boolean startSharedElementTransition = true;&#10;        setGhostVisibility(View.INVISIBLE);&#10;        scheduleGhostVisibilityChange(View.INVISIBLE);&#10;        pauseInput();&#10;        Transition transition = beginTransition(decorView, startEnterTransition,&#10;                startSharedElementTransition);&#10;        scheduleGhostVisibilityChange(View.VISIBLE);&#10;        setGhostVisibility(View.VISIBLE);&#10;&#10;        if (startEnterTransition) &#123;&#10;            startEnterTransition(transition);&#10;        &#125;&#10;&#10;        setOriginalSharedElementState(mSharedElements, originalImageViewState);&#10;&#10;        if (mResultReceiver != null) &#123;&#10;            // We can&#39;t trust that the view will disappear on the same frame that the shared&#10;            // element appears here. Assure that we get at least 2 frames for double-buffering.&#10;            decorView.postOnAnimation(new Runnable() &#123;&#10;                int mAnimations;&#10;&#10;                @Override&#10;                public void run() &#123;&#10;                    if (mAnimations++ &#60; MIN_ANIMATION_FRAMES) &#123;&#10;                        View decorView = getDecor();&#10;                        if (decorView != null) &#123;&#10;                            decorView.postOnAnimation(this);&#10;                        &#125;&#10;                    &#125; else if (mResultReceiver != null) &#123;&#10;                        mResultReceiver.send(MSG_HIDE_SHARED_ELEMENTS, null);&#10;                        mResultReceiver = null; // all done sending messages.&#10;                    &#125;&#10;                &#125;&#10;            &#125;);&#10;        &#125;&#10;    &#125;</span><br></pre></td></tr></table></figure></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Android/">Android</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/29/make学习记录/" data-tooltip="Make基础">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2016/03/29/Activity-Trasition实现流程/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2016/03/29/Activity-Trasition实现流程/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2016/03/29/Activity-Trasition实现流程/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <div id="ds-thread" class="ds-thread" data-thread-key="2016/03/29/Activity-Trasition实现流程/"
+     data-title="Activity Trasition实现流程" data-url="http://gonggaofeng.me/2016/03/29/Activity-Trasition实现流程/">
+</div>
+
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 龚高锋. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/29/make学习记录/" data-tooltip="Make基础">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2016/03/29/Activity-Trasition实现流程/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2016/03/29/Activity-Trasition实现流程/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2016/03/29/Activity-Trasition实现流程/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://gonggaofeng.me/2016/03/29/Activity-Trasition实现流程/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://gonggaofeng.me/2016/03/29/Activity-Trasition实现流程/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://gonggaofeng.me/2016/03/29/Activity-Trasition实现流程/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/author.jpg"/>
+        
+            <h4 id="about-card-name">龚高锋</h4>
+        
+            <h5 id="about-card-bio"><p>百度</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Android工程师</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                author.location
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-rjanlllosg30d03qrddpwrs6wqf4k3v0bbo68hiifuvthyhqfefx2htcagu0.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'kobegong'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>
